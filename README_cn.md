@@ -124,7 +124,7 @@ def get_data_service() -> DataService:
 
 ```python
 from fastapi import FastAPI, Depends
-from fastapi_mcp import add_mcp_server
+from fastapi_mcp import FastApiMCP
 from pydantic import BaseModel, Field
 
 app = FastAPI()
@@ -143,13 +143,17 @@ async def search_items(
     result = service.search_items(request.query, request.limit)
     return {"items": result["items"], "total": len(result["items"])}
 
-# 启用MCP服务
-add_mcp_server(
-    app,
-    mount_path="/mcp",
-    name="example-mcp-service",
+# 创建并挂载MCP服务
+mcp = FastApiMCP(
+    app, 
+    name="example-service",
+    description="示例MCP服务",
     base_url="http://localhost:5000",
+    include_operations=["search_items"]
 )
+
+# 挂载MCP服务到指定路径
+mcp.mount(mount_path="/mcp")
 ```
 
 ## 依赖注入详解
@@ -214,11 +218,11 @@ async def get_users(db = Depends(DatabaseDependency())):
 
 ### MCP工具自动生成
 
-FastAPI-MCP能够自动将FastAPI端点转换为MCP工具，无需额外配置：
+FastAPI-MCP能够自动将FastAPI端点转换为MCP工具：
 
 ```python
 from fastapi import FastAPI
-from fastapi_mcp import add_mcp_server
+from fastapi_mcp import FastApiMCP
 
 app = FastAPI()
 
@@ -227,13 +231,17 @@ app = FastAPI()
 async def predict_sentiment(text: str):
     return {"sentiment": "positive", "confidence": 0.92}
 
-# 添加MCP服务 - 自动转换上述端点为MCP工具
-add_mcp_server(
+# 创建并挂载MCP服务 - 自动转换上述端点为MCP工具
+mcp = FastApiMCP(
     app,
-    mount_path="/mcp",
     name="sentiment-analysis",
+    description="情感分析服务",
     base_url="http://localhost:5000",
+    include_operations=["predict_sentiment"]
 )
+
+# 挂载MCP服务到指定路径
+mcp.mount(mount_path="/mcp")
 ```
 
 ### 工具命名最佳实践

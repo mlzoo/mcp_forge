@@ -126,7 +126,7 @@ def get_data_service() -> DataService:
 
 ```python
 from fastapi import FastAPI, Depends
-from fastapi_mcp import add_mcp_server
+from fastapi_mcp import FastApiMCP
 from pydantic import BaseModel, Field
 
 app = FastAPI()
@@ -145,13 +145,17 @@ async def search_items(
     result = service.search_items(request.query, request.limit)
     return {"items": result["items"], "total": len(result["items"])}
 
-# Enable MCP service
-add_mcp_server(
+# Create and mount MCP service
+mcp = FastApiMCP(
     app,
-    mount_path="/mcp",
-    name="example-mcp-service",
+    name="example-service",
+    description="Example MCP service",
     base_url="http://localhost:5000",
+    include_operations=["search_items"]
 )
+
+# Mount MCP service at specified path
+mcp.mount(mount_path="/mcp")
 ```
 
 ## Dependency Injection Explained
@@ -216,11 +220,11 @@ In this framework, dependency injection is primarily used for:
 
 ### Automatic MCP Tool Generation
 
-FastAPI-MCP can automatically convert FastAPI endpoints into MCP tools without additional configuration:
+FastAPI-MCP can automatically convert FastAPI endpoints into MCP tools:
 
 ```python
 from fastapi import FastAPI
-from fastapi_mcp import add_mcp_server
+from fastapi_mcp import FastApiMCP
 
 app = FastAPI()
 
@@ -229,13 +233,17 @@ app = FastAPI()
 async def predict_sentiment(text: str):
     return {"sentiment": "positive", "confidence": 0.92}
 
-# Add MCP service - automatically converts the above endpoint to an MCP tool
-add_mcp_server(
+# Create and mount MCP service - automatically converts the above endpoint to an MCP tool
+mcp = FastApiMCP(
     app,
-    mount_path="/mcp",
     name="sentiment-analysis",
+    description="Sentiment analysis service",
     base_url="http://localhost:5000",
+    include_operations=["predict_sentiment"]
 )
+
+# Mount MCP service at specified path
+mcp.mount(mount_path="/mcp")
 ```
 
 ### Tool Naming Best Practices

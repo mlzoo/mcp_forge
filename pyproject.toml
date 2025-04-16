@@ -1,7 +1,7 @@
 [project]
-name = "product-recommendation"
+name = "mcp-example"
 version = "0.0.1"
-description = "商品推荐服务示例"
+description = "MCP示例"
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
 classifiers = [
@@ -25,6 +25,7 @@ dev = [
     "mypy>=0.991",
     "pytest-cov>=4.0.0",
     "ruff>=0.9.2",
+    "fastapi-mcp>=0.2.0",
 ]
 
 [build-system]

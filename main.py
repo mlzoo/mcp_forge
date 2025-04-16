@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent))
 
 from fastapi import Depends, FastAPI
-from fastapi_mcp import add_mcp_server
+from fastapi_mcp import FastApiMCP
 from pydantic import BaseModel, Field
 
 from services.parking_service import ParkingService, get_parking_service
@@ -24,7 +24,6 @@ class NearbyParkingRequest(BaseModel):
 class ParkingLotInfoRequest(BaseModel):
     """停车场详情请求模型"""
     parking_lot_id: str = Field(..., description="停车场ID")
-
 
 
 @app.post("/parking/nearby", operation_id="find_nearby_parking")
@@ -47,7 +46,6 @@ async def find_nearby(
         "message": f"已為您找到{len(result['data']['parking_lots'])}個停車場，搜尋範圍：{request.radius}公里"
     }
 
-
 @app.post("/parking/info", operation_id="get_parking_info")
 async def get_info(
     request: ParkingLotInfoRequest,
@@ -65,16 +63,20 @@ async def get_info(
         "message": f"已獲取停車場 {request.parking_lot_id} 的詳細資訊"
     }
 
-
 # 添加 MCP 服务器
-add_mcp_server(
+mcp = FastApiMCP(
     app,
-    mount_path="/mcp",
     name="parking",
-    base_url="http://localhost:8002",
+    description="停车场查询 MCP 服务",
+    base_url="http://localhost:5000",
+    include_operations=["find_nearby_parking", "get_parking_info"]
 )
+
+
+# 挂载 MCP 服务器到 /mcp 路径
+mcp.mount(mount_path="/mcp")
 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8002)  # noqa: S104
+    uvicorn.run(app, host="0.0.0.0", port=5000)  # noqa: S104
