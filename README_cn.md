@@ -25,10 +25,10 @@
 ┌─────────────┐      ┌───────────────┐      ┌─────────────────┐
 │  API 路由层  │ ─→   │  服务接口层     │ ─→   │  服务实现层      │
 └─────────────┘      └───────────────┘      └─────────────────┘
-       ↓                                            
-┌─────────────┐                                     
-│  MCP 端点    │ ←── FastAPI-MCP 自动转换            
-└─────────────┘                                     
+       ↓
+┌─────────────┐
+│  MCP 端点    │ ←── FastAPI-MCP 自动转换
+└─────────────┘
 ```
 
 ### 关键组件
@@ -110,7 +110,7 @@ class DataServiceMockImpl(DataService):
 class DataServiceImpl(DataService):
     def __init__(self, database_url: str):
         self.db = Database(database_url)
-    
+
     def get_data(self, id: str) -> Dict[str, Any]:
         return self.db.query("SELECT * FROM data WHERE id = :id", {"id": id})
 
@@ -145,7 +145,7 @@ async def search_items(
 
 # 创建并挂载MCP服务
 mcp = FastApiMCP(
-    app, 
+    app,
     name="example-service",
     description="示例MCP服务",
     base_url="http://localhost:5000",
@@ -191,7 +191,7 @@ FastAPI支持多种类型的依赖注入：
 class DatabaseDependency:
     def __init__(self, settings = Depends(get_settings)):
         self.settings = settings
-    
+
     def __call__(self):
         db = connect_to_db(self.settings.db_url)
         try:

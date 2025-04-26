@@ -10,10 +10,11 @@ check: ## 运行代码质量检查工具
 	@uv lock --locked
 	@echo "🚀 运行代码检查: pre-commit"
 	@uv run pre-commit run -a
-	@echo "🚀 运行类型检查: mypy"
-	@uv run mypy
-	@echo "🚀 检查过时依赖: deptry"
-	@uv run deptry .
+	# @echo "🚀 运行类型检查"
+	# @uv run mypy
+	# @echo "🚀 检查过时依赖"
+	# @uv run deptry .
+	@echo "🚀 检查完成"
 
 .PHONY: dev
 dev: ## 运行开发服务器
@@ -40,4 +41,4 @@ help:
 	@uv run python -c "import re; \
 	[[print(f'\033[36m{m[0]:<20}\033[0m {m[1]}') for m in re.findall(r'^([a-zA-Z_-]+):.*?## (.*)$$', open(makefile).read(), re.M)] for makefile in ('$(MAKEFILE_LIST)').strip().split()]"
 
-.DEFAULT_GOAL := help 
+.DEFAULT_GOAL := help

@@ -27,10 +27,10 @@ This framework is particularly suitable for:
 ┌─────────────┐      ┌───────────────┐      ┌─────────────────┐
 │   API Layer │ ──→ │ Service Layer  │ ──→ │ Implementation   │
 └─────────────┘      └───────────────┘      └─────────────────┘
-       ↓                                            
-┌─────────────┐                                     
-│  MCP Endpoint│ ←── FastAPI-MCP Auto-Conversion    
-└─────────────┘                                     
+       ↓
+┌─────────────┐
+│ MCP Endpoint│ ←── FastAPI-MCP Auto-Conversion
+└─────────────┘
 ```
 
 ### Key Components
@@ -112,7 +112,7 @@ class DataServiceMockImpl(DataService):
 class DataServiceImpl(DataService):
     def __init__(self, database_url: str):
         self.db = Database(database_url)
-    
+
     def get_data(self, id: str) -> Dict[str, Any]:
         return self.db.query("SELECT * FROM data WHERE id = :id", {"id": id})
 
@@ -193,7 +193,7 @@ FastAPI supports several types of dependency injection:
 class DatabaseDependency:
     def __init__(self, settings = Depends(get_settings)):
         self.settings = settings
-    
+
     def __call__(self):
         db = connect_to_db(self.settings.db_url)
         try:

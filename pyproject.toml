@@ -3,17 +3,16 @@ name = "mcp-example"
 version = "0.0.1"
 description = "MCP示例"
 readme = "README.md"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.12,<3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
     "fastapi[standard]>=0.115.12",
     "fastapi-mcp>=0.1.7",
     "uvicorn>=0.27.0",
+    "ttt-video @ git+https://github.com/test-time-training/ttt-video-dit.git"
 ]
 
 [dependency-groups]
@@ -111,4 +110,4 @@ preview = true
 skip_empty = true
 
 [tool.coverage.run]
-branch = true 
+branch = true
