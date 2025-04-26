@@ -25,7 +25,7 @@ This framework is particularly suitable for:
 
 ```
 ┌─────────────┐      ┌───────────────┐      ┌─────────────────┐
-│   API Layer │ ──→ │ Service Layer  │ ──→ │ Implementation   │
+│   API Layer │ ──→  │ Service Layer │ ──→  │ Implementation  │
 └─────────────┘      └───────────────┘      └─────────────────┘
        ↓
 ┌─────────────┐
