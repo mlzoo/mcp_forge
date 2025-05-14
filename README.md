@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/mlzoo-mcp-forge-badge.png)](https://mseep.ai/app/mlzoo-mcp-forge)
+
 # MCP Server Development Framework
 
 [中文文档](README_cn.md)
