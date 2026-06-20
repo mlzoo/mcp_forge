@@ -1,19 +1,19 @@
 import random
 import time
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any
 
 
 class ParkingService(ABC):
     """停车场服务抽象基类"""
 
     @abstractmethod
-    def find_nearby_parking_lots(self, address: str, radius: float = 1.0) -> Dict[str, Any]:
+    def find_nearby_parking_lots(self, address: str, radius: float = 1.0) -> dict[str, Any]:
         """查找附近停车场"""
         pass
 
     @abstractmethod
-    def parking_lot_details(self, parking_lot_id: str) -> Dict[str, Any]:
+    def parking_lot_details(self, parking_lot_id: str) -> dict[str, Any]:
         """获取停车场详情"""
         pass
 
@@ -21,7 +21,7 @@ class ParkingService(ABC):
 class ParkingServiceMockImpl(ParkingService):
     """停车场服务Mock实现类"""
 
-    def find_nearby_parking_lots(self, address: str, radius: float = 1.0) -> Dict[str, Any]:
+    def find_nearby_parking_lots(self, address: str, radius: float = 1.0) -> dict[str, Any]:
         """查找附近停车场的Mock实现"""
         time.sleep(0.1)  # 模拟API延迟
 
@@ -93,7 +93,7 @@ class ParkingServiceMockImpl(ParkingService):
             },
         }
 
-    def parking_lot_details(self, parking_lot_id: str) -> Dict[str, Any]:
+    def parking_lot_details(self, parking_lot_id: str) -> dict[str, Any]:
         """获取停车场详情的Mock实现"""
         time.sleep(0.1)  # 模拟API延迟
 
@@ -130,11 +130,11 @@ def get_parking_service() -> ParkingService:
 class ParkingServiceImpl(ParkingService):
     """停车场服务真实实现类"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
 
-    def find_nearby_parking_lots(self, address: str, radius: float = 1.0) -> Dict[str, Any]:
+    def find_nearby_parking_lots(self, address: str, radius: float = 1.0) -> dict[str, Any]:
         raise NotImplementedError
 
-    def parking_lot_details(self, parking_lot_id: str) -> Dict[str, Any]:
+    def parking_lot_details(self, parking_lot_id: str) -> dict[str, Any]:
         raise NotImplementedError
