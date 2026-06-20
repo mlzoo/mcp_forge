@@ -68,13 +68,12 @@ mcp = FastApiMCP(
     app,
     name="parking",
     description="停车场查询 MCP 服务",
-    base_url="http://localhost:5000",
     include_operations=["find_nearby_parking", "get_parking_info"],
 )
 
 
-# 挂载 MCP 服务器到 /mcp 路径
-mcp.mount(mount_path="/mcp")
+# 挂载 MCP 服务器到 /mcp 路径 (Streamable HTTP transport)
+mcp.mount_http(mount_path="/mcp")
 
 
 if __name__ == "__main__":
